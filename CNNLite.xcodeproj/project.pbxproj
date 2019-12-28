@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		A1AC6A7123B60A33006D9052 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AC6A7023B60A33006D9052 /* Assets.xcassets */; };
 		A1AC6A7423B60A33006D9052 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AC6A7323B60A33006D9052 /* Preview Assets.xcassets */; };
 		A1AC6A7723B60A33006D9052 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1AC6A7523B60A33006D9052 /* LaunchScreen.storyboard */; };
+		A1AC6A8023B60BE7006D9052 /* Request in Frameworks */ = {isa = PBXBuildFile; productRef = A1AC6A7F23B60BE7006D9052 /* Request */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1AC6A8023B60BE7006D9052 /* Request in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +93,9 @@
 			dependencies = (
 			);
 			name = CNNLite;
+			packageProductDependencies = (
+				A1AC6A7F23B60BE7006D9052 /* Request */,
+			);
 			productName = CNNLite;
 			productReference = A1AC6A6723B60A32006D9052 /* CNNLite.app */;
 			productType = "com.apple.product-type.application";
@@ -119,6 +124,9 @@
 				Base,
 			);
 			mainGroup = A1AC6A5E23B60A32006D9052;
+			packageReferences = (
+				A1AC6A7E23B60BE7006D9052 /* XCRemoteSwiftPackageReference "swift-request" */,
+			);
 			productRefGroup = A1AC6A6823B60A32006D9052 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -340,6 +348,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A1AC6A7E23B60BE7006D9052 /* XCRemoteSwiftPackageReference "swift-request" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:carson-katri/swift-request.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A1AC6A7F23B60BE7006D9052 /* Request */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1AC6A7E23B60BE7006D9052 /* XCRemoteSwiftPackageReference "swift-request" */;
+			productName = Request;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1AC6A5F23B60A32006D9052 /* Project object */;
 }

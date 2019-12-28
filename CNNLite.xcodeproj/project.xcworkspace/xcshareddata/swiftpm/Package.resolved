@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Request",
+        "repositoryURL": "git@github.com:carson-katri/swift-request.git",
+        "state": {
+          "branch": "master",
+          "revision": "79a11514ad07004cd6359ef616b31f71c013bbc6",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
