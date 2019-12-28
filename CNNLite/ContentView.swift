@@ -11,7 +11,7 @@ import Request
 import Foundation
 import SwiftSoup
 
-struct NewsLink: Decodable, Identifiable {
+struct NewsLink: Decodable, Identifiable, Hashable {
     let id: String    //=> /en/article/h_68985f0b7dd65edeb62e617d70ddbd68
     let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash in Louisiana en route to bowl game
 }
@@ -40,9 +40,9 @@ struct ContentView: View {
                 if data != nil {
    
                     //self.buildList(data)
-                    List(self.buildList(data)) { news in
+                    List(self.parse(data)) { newslink in
                         NavigationLink(destination: self.placeholder) {
-                            NewsView(news: news)
+                            NewsView(news: newslink)
                         }
                     }
                 } else {
@@ -82,17 +82,11 @@ struct ContentView: View {
         }
         
     }
-    
-    func buildList(_ data: Data?) -> some View {
-        let links = self.parse(data)
-        print("got links")
-        return self.placeholder
-    }
-
+ 
 }
 
 struct NewsView : View {
-    let news: News
+    let news: NewsLink // TODO: type News not link
     
     var body: some View {
         HStack(spacing: 5) {
@@ -101,7 +95,7 @@ struct NewsView : View {
                     .font(.headline)
                     .lineLimit(1)
                 Group {
-                    Text(news.content)
+                    Text(news.title)
                         .font(.caption)
                         .opacity(0.75)
                         .lineLimit(1)
