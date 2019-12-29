@@ -23,7 +23,7 @@ struct News: Decodable, Identifiable { // Hashable?
     let updated: String
 }
 
-var BASE_URL = "https://m.cnn.com"
+var BASE_URL = "https://lite.cnn.com"
 
 // TODO: figure out way to compose optional, try? all the way from callers
 func parseLinks(_ data: Data?) -> [NewsLink] {
@@ -54,12 +54,15 @@ func parseLinks(_ data: Data?) -> [NewsLink] {
 }
 
 func parseNews(_ data: Data?) -> some View {
-       let html: String = String.init(bytes: data!, encoding: .utf8)!
+    let html: String = String.init(bytes: data!, encoding: .utf8)!
     print(html)
     return Text(html)
    
 }
 
+func text(text: String) -> some View {
+    return Text(text)
+}
 
 struct NewsLinkContainerView: View {
     var placeholder: some View {
@@ -90,18 +93,18 @@ struct NewsLinkContainerView: View {
 struct NewsDetailContainerView: View {
     let link: NewsLink
     
-    
     var placeholder: some View {
           Text("http-err-case")
     }
     
     var body: some View {
-        RequestView(Request{
-            Url(BASE_URL + link.id)
-        }) { data in
+        let req = Request { Url(BASE_URL + self.link.id) }
+        req.onError({ callback in print(callback)})
+        
+        return RequestView(req, content: { data in
             parseNews(data)
             self.placeholder
-        }
+        })
     }
 }
 
