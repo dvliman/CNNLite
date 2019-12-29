@@ -13,7 +13,7 @@ import SwiftSoup
 
 struct NewsLink: Decodable, Identifiable, Hashable {
     let id: String    //=> /en/article/h_68985f0b7dd65edeb62e617d70ddbd68
-    let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash in Louisiana en route to bowl game
+    let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash ...
 }
 
 struct News: Decodable, Identifiable { // Hashable?
@@ -23,84 +23,97 @@ struct News: Decodable, Identifiable { // Hashable?
     let updated: String
 }
 
-struct ContentView: View {
+var BASE_URL = "https://m.cnn.com"
+
+// TODO: figure out way to compose optional, try? all the way from callers
+func parseLinks(_ data: Data?) -> [NewsLink] {
+    let html: String = String.init(bytes: data!, encoding: .utf8)!
+    
+    // TODO: figure out syntax for
+    // SwiftSoup.parse.map(::select("li)).reduce(xs, { child(0).attr("href"), text() }) => [NewsLink]
+    do {
+        let doc: Document = try SwiftSoup.parse(html)
+        let links: Elements = try doc.select("li")
+       
+        return try links.array().map({ link in
+            let href = try link.child(0).attr("href")
+            let text = try link.text()
+            return NewsLink(id: href, title: text)
+        })
+ 
+
+    } catch Exception.Error(let type, let message) {
+        print(type)
+        print(message)
+        return []
+        
+    } catch {
+        print("error")
+        return []
+    }
+}
+
+func parseNews(_ data: Data?) -> some View {
+       let html: String = String.init(bytes: data!, encoding: .utf8)!
+    print(html)
+    return Text(html)
+   
+}
+
+
+struct NewsLinkContainerView: View {
     var placeholder: some View {
         Text("Couldn't talk to server")
     }
     
     var body: some View {
         RequestView(Request{
-            Url("https://lite.cnn.io")
+            Url(BASE_URL)
         }) { data in
             NavigationView {
-                VStack {
-                    // data here is optional
-                    // we can apply Parser.parse func
-                    // output = nil-view | with-values-view
-                    // don't need to check != nil, call parse/1 etc
-                    if data != nil {
-       
-                        //self.buildList(data)
-                        List(self.parse(data)) { newslink in
-                            NavigationLink(destination: self.placeholder) {
-                                NewsView(news: newslink)
-                            }.navigationBarTitle("CNN News")
-                        }
-                    } else {
-                        self.placeholder
+                if data != nil {
+                    List(parseLinks(data)) { link in
+                        NavigationLink(destination: NewsDetailContainerView(link: link)) {
+                            NewsLinkView(link: link)
+                        }.navigationBarTitle("CNN News")
                     }
+                } else {
+                    self.placeholder // 200k but no body case?
                 }
             }
        
+            self.placeholder // http err case?
+        }
+    }
+}
+
+struct NewsDetailContainerView: View {
+    let link: NewsLink
+    
+    
+    var placeholder: some View {
+          Text("http-err-case")
+    }
+    
+    var body: some View {
+        RequestView(Request{
+            Url(BASE_URL + link.id)
+        }) { data in
+            parseNews(data)
             self.placeholder
         }
     }
-    
-    // TODO: figure out way to compose optional, try? all the way from callers
-    func parse(_ data: Data?) -> [NewsLink] {
-        let html: String = String.init(bytes: data!, encoding: .utf8)!
-        
-        // TODO: figure out syntax for
-        // SwiftSoup.parse.map(::select("li)).reduce(xs, { child(0).attr("href"), text() }) => [NewsLink]
-        do {
-            let doc: Document = try SwiftSoup.parse(html)
-            let links: Elements = try doc.select("li")
-           
-            return try links.array().map({ link in
-                let href = try link.child(0).attr("href")
-                let text = try link.text()
-                return NewsLink(id: href, title: text)
-            })
-     
-
-        } catch Exception.Error(let type, let message) {
-            print(type)
-            print(message)
-            return []
-            
-        } catch {
-            print("error")
-            return []
-        }
-        
-    }
- 
 }
 
-struct NewsView : View {
-    let news: NewsLink // TODO: type News not link
+struct NewsLinkView : View {
+    let link: NewsLink
     
     var body: some View {
         VStack {
-            Text(news.title)
+            Text(link.title)
                 .font(.headline)
                 .bold()
                 .lineLimit(2)
-// subtitle
-//            Text(news.title)
-//                .font(.caption)
-//                .opacity(0.75)
-//                .lineLimit(1)
         }
     }
 }
@@ -109,7 +122,7 @@ struct NewsDetailView: View {
     let news: News
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 20) {
             Text(news.title)
                 .font(.headline)
                 .bold()
@@ -117,12 +130,14 @@ struct NewsDetailView: View {
             Text(news.updated)
                 .font(.subheadline)
             
+            Divider()
             
+            Text(news.content)
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct NewsLinkContainerView_Previews: PreviewProvider {
     static var previews: some View {
         NewsDetailView(news: News.example)
     }
