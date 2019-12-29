@@ -43,14 +43,14 @@ struct ContentView: View {
                         //self.buildList(data)
                         List(self.parse(data)) { newslink in
                             NavigationLink(destination: self.placeholder) {
-                                NewsView(news: newslink).navigationBarTitle("CNN news")
-                            }
+                                NewsView(news: newslink)
+                            }.navigationBarTitle("CNN News")
                         }
                     } else {
                         self.placeholder
                     }
                 }
-            }.navigationBarTitle("CNN News")
+            }
        
             self.placeholder
         }
