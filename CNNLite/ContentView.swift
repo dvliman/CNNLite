@@ -32,23 +32,25 @@ struct ContentView: View {
         RequestView(Request{
             Url("https://lite.cnn.io")
         }) { data in
-            VStack {
-                // data here is optional
-                // we can apply Parser.parse func
-                // output = nil-view | with-values-view
-                // don't need to check != nil, call parse/1 etc
-                if data != nil {
-   
-                    //self.buildList(data)
-                    List(self.parse(data)) { newslink in
-                        NavigationLink(destination: self.placeholder) {
-                            NewsView(news: newslink)
+            NavigationView {
+                VStack {
+                    // data here is optional
+                    // we can apply Parser.parse func
+                    // output = nil-view | with-values-view
+                    // don't need to check != nil, call parse/1 etc
+                    if data != nil {
+       
+                        //self.buildList(data)
+                        List(self.parse(data)) { newslink in
+                            NavigationLink(destination: self.placeholder) {
+                                NewsView(news: newslink).navigationBarTitle("CNN news")
+                            }
                         }
+                    } else {
+                        self.placeholder
                     }
-                } else {
-                    self.placeholder
                 }
-            }
+            }.navigationBarTitle("CNN News")
        
             self.placeholder
         }
@@ -89,18 +91,16 @@ struct NewsView : View {
     let news: NewsLink // TODO: type News not link
     
     var body: some View {
-        HStack(spacing: 5) {
-            VStack(alignment: .leading) {
-                Text(news.title)
-                    .font(.headline)
-                    .lineLimit(1)
-                Group {
-                    Text(news.title)
-                        .font(.caption)
-                        .opacity(0.75)
-                        .lineLimit(1)
-                }
-            }
+        
+        VStack(alignment: .leading) {
+            Text(news.title)
+                .font(.headline)
+                .bold()
+                .lineLimit(2)
+            Text(news.title)
+                .font(.caption)
+                .opacity(0.75)
+                .lineLimit(1)
         }
     }
 }
