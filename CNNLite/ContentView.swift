@@ -91,30 +91,40 @@ struct NewsView : View {
     let news: NewsLink // TODO: type News not link
     
     var body: some View {
-        
-        VStack(alignment: .leading) {
+        VStack {
             Text(news.title)
                 .font(.headline)
                 .bold()
                 .lineLimit(2)
-            Text(news.title)
-                .font(.caption)
-                .opacity(0.75)
-                .lineLimit(1)
+// subtitle
+//            Text(news.title)
+//                .font(.caption)
+//                .opacity(0.75)
+//                .lineLimit(1)
         }
     }
 }
 
 struct NewsDetailView: View {
+    let news: News
+    
     var body: some View {
-        Text("news-details-view")
+        VStack {
+            Text(news.title)
+                .font(.headline)
+                .bold()
+            
+            Text(news.updated)
+                .font(.subheadline)
+            
+            
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-//        NewsView(news: News.example)
-        ContentView()
+        NewsDetailView(news: News.example)
     }
 }
 
