@@ -1,11 +1,3 @@
-//
-//  ContentView.swift
-//  CNNLite
-//
-//  Created by dv on 12/27/19.
-//  Copyright © 2019 David Liman. All rights reserved.
-//
-
 import SwiftUI
 import Request
 import Foundation
@@ -16,11 +8,10 @@ struct NewsLink: Decodable, Identifiable {
     let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash ...
 }
 
-struct News: Decodable, Identifiable {
-    let id: String
+struct News: Decodable {
     let title: String
-    let content: String
     let updated: String
+    let content: String
 }
 
 var BASE_URL = "https://lite.cnn.io"
@@ -35,8 +26,8 @@ func fetchNewsDetail(id: String) -> Request {
 
 
 // TODO: figure out way to compose optional, try? all the way from callers
-func parseLinks(_ data: Data?) -> [NewsLink] {
-    let html: String = String.init(bytes: data!, encoding: .utf8)!
+func parseLinks(_ data: Data) -> [NewsLink] {
+    let html: String = String.init(bytes: data, encoding: .utf8)!
     
     // TODO: figure out syntax for
     // SwiftSoup.parse.map(::select("li)).reduce(xs, { child(0).attr("href"), text() }) => [NewsLink]
@@ -62,10 +53,16 @@ func parseLinks(_ data: Data?) -> [NewsLink] {
     }
 }
 
-func text(text: String) -> some View {
-    return Text(text)
+func parseNewsDetail(_ data: Data) -> some View {
+    let html: String = String.init(bytes: data, encoding: .utf8)!
+    let doc: Document = try! SwiftSoup.parse(html)
+    
+    let title: Elements = try! doc.select("h2")
+    let content: Elements = try! doc.select(".afe4286c div:nth-of-type(2)li")
+    let updated: Elements = try! doc.select("div#published datetime")
+//    return News(title: "title", updated: "updated", content: "content")
+    return Text("from-parse-news-details")
 }
-
 
 struct NewsLinkContainerView: View {
     var placeholder: some View {
@@ -76,7 +73,7 @@ struct NewsLinkContainerView: View {
         RequestView(fetchLinks()) { data in
             NavigationView {
                 if data != nil {
-                    List(parseLinks(data)) { link in
+                    List(parseLinks(data!)) { link in
                         NavigationLink(destination: NewsDetailContainerView(link: link)) {
                             NewsLinkView(link: link)
                         }.navigationBarTitle("CNN News")
@@ -101,19 +98,16 @@ struct NewsDetailContainerView: View {
     
     var body: some View {
         RequestView(fetchNewsDetail(id: self.link.id)) { data in
-            self.parseNewsDetails(data)
+            VStack {
+                if data != nil {
+                     parseNewsDetail(data!)
+                    NewsDetailView(news: News.example)
+                } else {
+                    self.placeholder
+                }
+            }
             self.placeholder
         }
-    }
-    
-    func parseNewsDetails(_ data: Data?) -> some View {
-        print("dvliman")
-        if data != nil {
-            print("data-exists")
-        } else {
-            print("data-nil")
-        }
-        return Text("placeholder")
     }
 }
 
@@ -134,7 +128,7 @@ struct NewsDetailView: View {
     let news: News
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 10) {
             Text(news.title)
                 .font(.headline)
                 .bold()
@@ -145,13 +139,16 @@ struct NewsDetailView: View {
             Divider()
             
             Text(news.content)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+            .padding(10)
     }
 }
 
 struct NewsLinkContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsDetailView(news: News.example)
+        //NewsDetailView(news: News.example)
+        NewsLinkContainerView()
     }
 }
 
@@ -162,7 +159,9 @@ extension News {
     
     static var example: Self {
         return News(
-            id: "h_68985f0b7dd65edeb62e617d70ddbd68", title: "At least 5 people died in a small plane crash near Louisiana airport, officials say", content: """
+            title: "At least 5 people died in a small plane crash near Louisiana airport, officials say",
+            updated: "Updated 1:28 PM ET, Sat December 28, 2019",
+            content: """
 (CNN) - At least five people died Saturday when a small plane crashed near Lafayette Regional Airport in Louisiana, Lafayette Fire Chief Robert Benoit said.
 
 One person on board survived the crash, which occurred at 9:22 a.m. local time, Benoit said in a news conference. The survivor was taken to the hospital along with three people who were on the ground, Benoit said.
@@ -174,8 +173,7 @@ Weather conditions at Lafayette Regional Airport were listed as foggy throughout
 Lafayette is about 130 miles west of New Orleans.
 
 This is a developing story. More to come.
-""", updated: "Updated 1:28 PM ET, Sat December 28, 2019"
-        )
+""")
     }
 }
 #endif
