@@ -11,19 +11,28 @@ import Request
 import Foundation
 import SwiftSoup
 
-struct NewsLink: Decodable, Identifiable, Hashable {
+struct NewsLink: Decodable, Identifiable {
     let id: String    //=> /en/article/h_68985f0b7dd65edeb62e617d70ddbd68
     let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash ...
 }
 
-struct News: Decodable, Identifiable { // Hashable?
+struct News: Decodable, Identifiable {
     let id: String
     let title: String
     let content: String
     let updated: String
 }
 
-var BASE_URL = "https://lite.cnn.com"
+var BASE_URL = "https://lite.cnn.io"
+
+func fetchLinks() -> Request {
+    return Request { Url(BASE_URL) }
+}
+
+func fetchNewsDetail(id: String) -> Request {
+    return Request { Url("https://lite.cnn.io/en/article/h_21d7d8b9784232c0e347d28b6a60de35") }
+}
+
 
 // TODO: figure out way to compose optional, try? all the way from callers
 func parseLinks(_ data: Data?) -> [NewsLink] {
@@ -53,16 +62,10 @@ func parseLinks(_ data: Data?) -> [NewsLink] {
     }
 }
 
-func parseNews(_ data: Data?) -> some View {
-    let html: String = String.init(bytes: data!, encoding: .utf8)!
-    print(html)
-    return Text(html)
-   
-}
-
 func text(text: String) -> some View {
     return Text(text)
 }
+
 
 struct NewsLinkContainerView: View {
     var placeholder: some View {
@@ -70,9 +73,7 @@ struct NewsLinkContainerView: View {
     }
     
     var body: some View {
-        RequestView(Request{
-            Url(BASE_URL)
-        }) { data in
+        RequestView(fetchLinks()) { data in
             NavigationView {
                 if data != nil {
                     List(parseLinks(data)) { link in
@@ -91,38 +92,28 @@ struct NewsLinkContainerView: View {
 }
 
 struct NewsDetailContainerView: View {
-    var link: NewsLink
+    let link: NewsLink
     
-    init(link: NewsLink) {
-        self.link = link
-        
-        print("init func")
-        var req = Request { Url (BASE_URL + link.id) }
-        req.onData({ data in
-                print("onData")
-                print(data)
-            })
-        req.onError { (reqErr) in
-            print("onError")
-            print(reqErr)
-        }
-        req.call()
-        print("init func - done")
-        
-    }
+
     var placeholder: some View {
           Text("http-err-case")
     }
     
     var body: some View {
-//        let req = Request { Url(BASE_URL + self.link.id) }
-//
-//
-//        return RequestView(req, content: { data in
-//            parseNews(data)
-//            self.placeholder
-//        })
-        Text(BASE_URL + self.link.id)
+        RequestView(fetchNewsDetail(id: self.link.id)) { data in
+            self.parseNewsDetails(data)
+            self.placeholder
+        }
+    }
+    
+    func parseNewsDetails(_ data: Data?) -> some View {
+        print("dvliman")
+        if data != nil {
+            print("data-exists")
+        } else {
+            print("data-nil")
+        }
+        return Text("placeholder")
     }
 }
 
