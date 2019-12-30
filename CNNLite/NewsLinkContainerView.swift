@@ -59,7 +59,7 @@ func parseNewsDetail(_ data: Data) -> some View {
     
     let title: String = try! doc.select("h2").text()
     let content: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(3)").text()
-    //let updated: Elements = try! doc.select("#published/\\datetime")
+//    let updated: String = try! doc.select("div#published").text()
     let updated: String = "Updated 8:26 AM ET, Fri December 27, 2019"
 
     return NewsDetailView(news: News(title: title, updated: updated, content: content))
@@ -99,7 +99,7 @@ struct NewsDetailContainerView: View {
     
     var body: some View {
         RequestView(fetchNewsDetail(id: self.link.id)) { data in
-            VStack {
+            HStack {
                 if data != nil {
                     parseNewsDetail(data!)
                     
@@ -116,12 +116,10 @@ struct NewsLinkView : View {
     let link: NewsLink
     
     var body: some View {
-        VStack {
-            Text(link.title)
-                .font(.headline)
-                .bold()
-                .lineLimit(2)
-        }
+        Text(link.title)
+            .font(.headline)
+            .bold()
+            .lineLimit(2)
     }
 }
 
