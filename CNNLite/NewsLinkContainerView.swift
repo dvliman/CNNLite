@@ -8,7 +8,8 @@ struct NewsLink: Decodable, Identifiable {
     let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash ...
 }
 
-struct News: Decodable {
+struct News: Decodable, Identifiable {
+    let id: String
     let title: String
     let updated: String
     let content: String
@@ -53,7 +54,7 @@ func parseLinks(_ data: Data) -> [NewsLink] {
     }
 }
 
-func parseNewsDetail(_ data: Data) -> some View {
+func parseNewsDetail(id: String, data: Data) -> some View {
     let html: String = String.init(bytes: data, encoding: .utf8)!
     let doc: Document = try! SwiftSoup.parse(html)
     
@@ -61,7 +62,7 @@ func parseNewsDetail(_ data: Data) -> some View {
     let content: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(3)").text()
     let updated: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(2)").text()
 
-    return NewsDetailView(news: News(title: title, updated: updated, content: content))
+    return NewsDetailView(news: News(id: id, title: title, updated: updated, content: content))
 }
 
 struct NewsLinkContainerView: View {
@@ -71,8 +72,8 @@ struct NewsLinkContainerView: View {
     
     var body: some View {
         RequestView(fetchLinks()) { data in
-            NavigationView {
-                if data != nil {
+            if data != nil {
+                NavigationView {
                     List(parseLinks(data!)) { link in
                         NavigationLink(destination: NewsDetailContainerView(link: link)) {
                             NewsLinkView(link: link)
@@ -80,8 +81,8 @@ struct NewsLinkContainerView: View {
                     }
                 }
             }
-       
-            self.placeholder // http err case?
+
+            self.placeholder // spinning
         }
     }
 }
@@ -97,7 +98,7 @@ struct NewsDetailContainerView: View {
     var body: some View {
         RequestView(fetchNewsDetail(id: self.link.id)) { data in
             if data != nil {
-                parseNewsDetail(data!)
+                parseNewsDetail(id: self.link.id, data: data!)
             }
             self.placeholder
         }
@@ -119,27 +120,29 @@ struct NewsDetailView: View {
     let news: News
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(news.title)
-                .font(.headline)
-                .bold()
-            
-            Text(news.updated)
-                .font(.subheadline)
-            
-            Divider()
-            
-            Text(news.content)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(news.title)
+                    .font(.headline)
+                    .bold()
+                
+                Text(news.updated)
+                    .font(.subheadline)
+                
+                Divider()
+                
+                Text(news.content)
             }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             .padding(15)
+   
+        }
     }
 }
 
 struct NewsLinkContainerView_Previews: PreviewProvider {
     static var previews: some View {
         NewsDetailView(news: News.example)
-        
     }
 }
 
@@ -150,6 +153,7 @@ extension News {
     
     static var example: Self {
         return News(
+            id: "some-id",
             title: "At least 5 people died in a small plane crash near Louisiana airport, officials say",
             updated: "Updated 1:28 PM ET, Sat December 28, 2019",
             content: """
