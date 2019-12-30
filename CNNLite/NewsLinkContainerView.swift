@@ -59,8 +59,7 @@ func parseNewsDetail(_ data: Data) -> some View {
     
     let title: String = try! doc.select("h2").text()
     let content: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(3)").text()
-//    let updated: String = try! doc.select("div#published").text()
-    let updated: String = "Updated 8:26 AM ET, Fri December 27, 2019"
+    let updated: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(2)").text()
 
     return NewsDetailView(news: News(title: title, updated: updated, content: content))
 }
@@ -79,8 +78,6 @@ struct NewsLinkContainerView: View {
                             NewsLinkView(link: link)
                         }.navigationBarTitle("CNN News")
                     }
-                } else {
-                    self.placeholder // 200k but no body case?
                 }
             }
        
@@ -99,13 +96,8 @@ struct NewsDetailContainerView: View {
     
     var body: some View {
         RequestView(fetchNewsDetail(id: self.link.id)) { data in
-            HStack {
-                if data != nil {
-                    parseNewsDetail(data!)
-                    
-                } else {
-                    self.placeholder
-                }
+            if data != nil {
+                parseNewsDetail(data!)
             }
             self.placeholder
         }
@@ -139,15 +131,15 @@ struct NewsDetailView: View {
             
             Text(news.content)
             }
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-            .padding(10)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
+            .padding(15)
     }
 }
 
 struct NewsLinkContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        //NewsDetailView(news: News.example)
-        NewsLinkContainerView()
+        NewsDetailView(news: News.example)
+        
     }
 }
 
