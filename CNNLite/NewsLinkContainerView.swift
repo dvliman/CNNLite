@@ -91,20 +91,38 @@ struct NewsLinkContainerView: View {
 }
 
 struct NewsDetailContainerView: View {
-    let link: NewsLink
+    var link: NewsLink
     
+    init(link: NewsLink) {
+        self.link = link
+        
+        print("init func")
+        var req = Request { Url (BASE_URL + link.id) }
+        req.onData({ data in
+                print("onData")
+                print(data)
+            })
+        req.onError { (reqErr) in
+            print("onError")
+            print(reqErr)
+        }
+        req.call()
+        print("init func - done")
+        
+    }
     var placeholder: some View {
           Text("http-err-case")
     }
     
     var body: some View {
-        let req = Request { Url(BASE_URL + self.link.id) }
-        req.onError({ callback in print(callback)})
-        
-        return RequestView(req, content: { data in
-            parseNews(data)
-            self.placeholder
-        })
+//        let req = Request { Url(BASE_URL + self.link.id) }
+//
+//
+//        return RequestView(req, content: { data in
+//            parseNews(data)
+//            self.placeholder
+//        })
+        Text(BASE_URL + self.link.id)
     }
 }
 
@@ -136,7 +154,7 @@ struct NewsDetailView: View {
             Divider()
             
             Text(news.content)
-        }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }
 
