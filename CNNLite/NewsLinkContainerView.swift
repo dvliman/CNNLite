@@ -21,7 +21,7 @@ func fetchLinks() -> Request {
 }
 
 func fetchNewsDetail(id: String) -> Request {
-    return Request { Url("https://lite.cnn.io/en/article/h_21d7d8b9784232c0e347d28b6a60de35") }
+    return Request { Url(BASE_URL + id) }
 }
 
 
@@ -57,11 +57,12 @@ func parseNewsDetail(_ data: Data) -> some View {
     let html: String = String.init(bytes: data, encoding: .utf8)!
     let doc: Document = try! SwiftSoup.parse(html)
     
-    let title: Elements = try! doc.select("h2")
-    let content: Elements = try! doc.select(".afe4286c div:nth-of-type(2)li")
-    let updated: Elements = try! doc.select("div#published datetime")
-//    return News(title: "title", updated: "updated", content: "content")
-    return Text("from-parse-news-details")
+    let title: String = try! doc.select("h2").text()
+    let content: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(3)").text()
+    //let updated: Elements = try! doc.select("#published/\\datetime")
+    let updated: String = "Updated 8:26 AM ET, Fri December 27, 2019"
+
+    return NewsDetailView(news: News(title: title, updated: updated, content: content))
 }
 
 struct NewsLinkContainerView: View {
@@ -100,8 +101,8 @@ struct NewsDetailContainerView: View {
         RequestView(fetchNewsDetail(id: self.link.id)) { data in
             VStack {
                 if data != nil {
-                     parseNewsDetail(data!)
-                    NewsDetailView(news: News.example)
+                    parseNewsDetail(data!)
+                    
                 } else {
                     self.placeholder
                 }
