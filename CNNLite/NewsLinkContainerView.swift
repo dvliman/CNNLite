@@ -1,11 +1,46 @@
 import SwiftUI
-import Request
 import Foundation
 import SwiftSoup
+import TinyNetworking
+import Request
+
+extension Endpoint where A == String {
+    public static func parseString(data: Data?, response: URLResponse?) -> Result<String, Error> {
+        guard let data = data else { return .failure(NSError()) }
+        return .success(String(data: data, encoding: .utf8)!)
+    }
+}
 
 struct NewsLink: Decodable, Identifiable {
     let id: String    //=> /en/article/h_68985f0b7dd65edeb62e617d70ddbd68
     let title: String //=> Daughter-in-law of LSU coach among the 5 killed in a small plane crash ...
+    
+    static var endpoint = Endpoint<String>(.get, url: URL(string: "https://lite.cnn.io")!, accept: .xml, parse: Endpoint.parseString).map(parseLinks)
+    
+    static func parseLinks(_ html: String) -> [NewsLink] {
+        // TODO: figure out syntax for
+        // SwiftSoup.parse.map(::select("li)).reduce(xs, { child(0).attr("href"), text() }) => [NewsLink]
+        do {
+            let doc: Document = try SwiftSoup.parse(html)
+            let links: Elements = try doc.select("li")
+           
+            return try links.array().map({ link in
+                let href = try link.child(0).attr("href")
+                let text = try link.text()
+                return NewsLink(id: href, title: text)
+            })
+     
+
+        } catch Exception.Error(let type, let message) {
+            print(type)
+            print(message)
+            return []
+            
+        } catch {
+            print("error")
+            return []
+        }
+    }
 }
 
 struct News: Decodable, Identifiable {
@@ -16,6 +51,7 @@ struct News: Decodable, Identifiable {
 }
 
 var BASE_URL = "https://lite.cnn.io"
+
 
 func fetchLinks() -> Request {
     return Request { Url(BASE_URL) }
