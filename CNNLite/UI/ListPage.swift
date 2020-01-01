@@ -11,20 +11,26 @@ import TinyNetworking
 import Combine
 
 struct ListPage: View {
-    @ObservedObject var links = Resource(endpoint: NewsLink.endpoint)
+    var body: some View {
+        ResourceView.makeView(NewsLink.endpoint, view: NewsLinksView.self)
+    }
+}
+
+struct NewsLinksView: ContentView {
+    typealias A = [NewsLink]
+    
+    let newsLinks: [NewsLink]
+    
+    init(content newsLinks: [NewsLink]) {
+        self.newsLinks = newsLinks
+    }
     
     var body: some View {
-        Group {
-            if links.value == nil {
-                ListPagePlaceHolder()
-            } else {
-                NavigationView {
-                    List(links.value!) { link in
-                        NavigationLink(destination: NewsDetailContainerView(link: link)) {
-                            NewsLinkView(link: link)
-                        }.navigationBarTitle("CNN News")
-                    }
-                }
+        NavigationView {
+            List(newsLinks) { link in
+                NavigationLink(destination: NewsDetailContainerView(link: link)) {
+                    NewsLinkView(link: link)
+                }.navigationBarTitle("CNN News")
             }
         }
     }
@@ -41,17 +47,11 @@ struct NewsLinkView : View {
     }
 }
 
-struct ListPagePlaceHolder: View {
-    var body: some View {
-        Text("Connecting to Server")
-    }
-}
-
 #if DEBUG
 
 struct ListPage_Previews: PreviewProvider {
     static var previews: some View {
-        ListPage(links: Resource(endpoint: NewsLink.endpoint, value: NewsLink.examples))
+        NewsLinksView(content: NewsLink.examples)
     }
 }
 
