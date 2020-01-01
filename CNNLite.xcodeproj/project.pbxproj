@@ -62,6 +62,43 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		91B6C0FF23BD3CF2009E6408 /* TinyNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				91B6C0F123BD2753009E6408 /* Resource.swift */,
+				91B6C0FB23BD38D0009E6408 /* TinyNetworking.swift */,
+			);
+			path = TinyNetworking;
+			sourceTree = "<group>";
+		};
+		91B6C10023BD3D05009E6408 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91B6C0F723BD3830009E6408 /* NewsLink.swift */,
+				91B6C0FD23BD3920009E6408 /* News.swift */,
+				91B6C0F923BD3896009E6408 /* SwiftSoap.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		91B6C10123BD3D56009E6408 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A1AC6A6A23B60A32006D9052 /* AppDelegate.swift */,
+				A1AC6A6C23B60A32006D9052 /* SceneDelegate.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91B6C10223BD3D6E009E6408 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A1AC6A6E23B60A32006D9052 /* NewsLinkContainerView.swift */,
+				91B6C0EA23BAAB30009E6408 /* ListPage.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		A1AC6A5E23B60A32006D9052 = {
 			isa = PBXGroup;
 			children = (
@@ -82,15 +119,10 @@
 		A1AC6A6923B60A32006D9052 /* CNNLite */ = {
 			isa = PBXGroup;
 			children = (
-				A1AC6A6A23B60A32006D9052 /* AppDelegate.swift */,
-				A1AC6A6C23B60A32006D9052 /* SceneDelegate.swift */,
-				A1AC6A6E23B60A32006D9052 /* NewsLinkContainerView.swift */,
-				91B6C0F123BD2753009E6408 /* Resource.swift */,
-				91B6C0EA23BAAB30009E6408 /* ListPage.swift */,
-				91B6C0F723BD3830009E6408 /* NewsLink.swift */,
-				91B6C0FD23BD3920009E6408 /* News.swift */,
-				91B6C0F923BD3896009E6408 /* SwiftSoap.swift */,
-				91B6C0FB23BD38D0009E6408 /* TinyNetworking.swift */,
+				91B6C10223BD3D6E009E6408 /* UI */,
+				91B6C10023BD3D05009E6408 /* Model */,
+				91B6C0FF23BD3CF2009E6408 /* TinyNetworking */,
+				91B6C10123BD3D56009E6408 /* Supporting Files */,
 				A1AC6A7023B60A33006D9052 /* Assets.xcassets */,
 				A1AC6A7523B60A33006D9052 /* LaunchScreen.storyboard */,
 				A1AC6A7823B60A33006D9052 /* Info.plist */,
