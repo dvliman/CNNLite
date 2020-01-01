@@ -27,7 +27,6 @@
 /* Begin PBXFileReference section */
 		91B6C0EA23BAAB30009E6408 /* ListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPage.swift; sourceTree = "<group>"; };
 		91B6C0F123BD2753009E6408 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
-		91B6C0F323BD2BAA009E6408 /* CNN.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CNN.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		91B6C0F723BD3830009E6408 /* NewsLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsLink.swift; sourceTree = "<group>"; };
 		91B6C0F923BD3896009E6408 /* SwiftSoap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSoap.swift; sourceTree = "<group>"; };
 		91B6C0FB23BD38D0009E6408 /* TinyNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyNetworking.swift; sourceTree = "<group>"; };
@@ -66,7 +65,6 @@
 		A1AC6A5E23B60A32006D9052 = {
 			isa = PBXGroup;
 			children = (
-				91B6C0F323BD2BAA009E6408 /* CNN.playground */,
 				A1AC6A6923B60A32006D9052 /* CNNLite */,
 				A1AC6A6823B60A32006D9052 /* Products */,
 				91B6C0F423BD36E3009E6408 /* Frameworks */,
