@@ -32,4 +32,11 @@ final class Resource<A>: ObservableObject {
             self.value = try? result.get()
         }
     }
+    
+    #if DEBUG
+        init(endpoint: Endpoint<A>, value: A) {
+            self.endpoint = endpoint
+            self.value = value
+        }
+    #endif
 }

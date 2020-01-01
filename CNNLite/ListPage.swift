@@ -30,6 +30,17 @@ struct ListPage: View {
     }
 }
 
+struct NewsLinkView : View {
+    let link: NewsLink
+    
+    var body: some View {
+        Text(link.title)
+            .font(.headline)
+            .bold()
+            .lineLimit(2)
+    }
+}
+
 struct ListPagePlaceHolder: View {
     var body: some View {
         Text("Connecting to Server")
@@ -38,11 +49,11 @@ struct ListPagePlaceHolder: View {
 
 #if DEBUG
 
-//struct ListPage_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ListPage(links: NewsLink.examples)
-//    }
-//}
+struct ListPage_Previews: PreviewProvider {
+    static var previews: some View {
+        ListPage(links: Resource(endpoint: NewsLink.endpoint, value: NewsLink.examples))
+    }
+}
 
 extension NewsLink {
     static var examples: [Self] {
