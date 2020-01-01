@@ -27,6 +27,14 @@ func fetchNewsDetail(id: String) -> Request {
 
 
 // TODO: figure out way to compose optional, try? all the way from callers
+func maybeParseLinks(_ data: Data?) -> [NewsLink] {
+    if let _ = data {
+        return parseLinks(data!)
+    } else {
+        return []
+    }
+}
+
 func parseLinks(_ data: Data) -> [NewsLink] {
     let html: String = String.init(bytes: data, encoding: .utf8)!
     
@@ -72,29 +80,30 @@ struct NewsLinkContainerView: View {
     
     var body: some View {
         RequestView(fetchLinks()) { data in
-            if data != nil {
-                NavigationView {
-                    List(parseLinks(data!)) { link in
-                        NavigationLink(destination: NewsDetailContainerView(link: link)) {
-                            NewsLinkView(link: link)
-                        }.navigationBarTitle("CNN News")
-                    }
-                }
-            }
-
+            self.buildNewsList(data)
             self.placeholder // spinning
+        }
+    }
+    
+    func buildNewsList(_ data: Data?) -> some View {
+        NavigationView {
+            List(maybeParseLinks(data)) { link in
+                NavigationLink(destination: NewsDetailContainerView(link: link)) {
+                    NewsLinkView(link: link)
+                }
+                .navigationBarTitle(Text("CNN News"), displayMode: .inline)
+            }
         }
     }
 }
 
 struct NewsDetailContainerView: View {
     let link: NewsLink
-    
 
     var placeholder: some View {
           Text("http-err-case")
     }
-    
+
     var body: some View {
         RequestView(fetchNewsDetail(id: self.link.id)) { data in
             if data != nil {
