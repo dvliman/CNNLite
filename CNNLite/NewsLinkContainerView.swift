@@ -62,12 +62,20 @@ func parseLinks(_ data: Data) -> [NewsLink] {
     }
 }
 
+func parseContent(_ acc: String, _ element: Element) throws-> String {
+    let body = try! element.text()
+    return acc + body + "\n\n"
+}
+
 func parseNewsDetail(id: String, data: Data) -> some View {
     let html: String = String.init(bytes: data, encoding: .utf8)!
     let doc: Document = try! SwiftSoup.parse(html)
     
     let title: String = try! doc.select("h2").text()
-    let content: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(3)").text()
+    let content: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(3)")
+        .first()!
+        .children()
+        .reduce("", parseContent(_:_:))
     let updated: String = try! doc.select("#mount > div > div.afe4286c > div:nth-child(2)").text()
 
     return NewsDetailView(news: News(id: id, title: title, updated: updated, content: content))
