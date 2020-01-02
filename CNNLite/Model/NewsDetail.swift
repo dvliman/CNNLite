@@ -7,21 +7,32 @@
 //
 
 import Foundation
+import TinyNetworking
 
-struct News: Decodable, Identifiable {
-    let id: String
+struct NewsDetail: Decodable, Identifiable {
+    var id: String {
+        return title
+    }
+    
     let title: String
     let updated: String
     let content: String
+    
+    static func endpoint(id: String) -> Endpoint<NewsDetail> {
+        Endpoint<String>(.get,
+                         url: URL(string: "https://lite.cnn.io")!.appendingPathComponent(id),
+                         accept: .xml,
+                         parse: Endpoint.parseString)
+                        .compactMap(parse)
+    }
 }
 
 #if DEBUG
 
-extension News {
+extension NewsDetail {
     
     static var example: Self {
-        return News(
-            id: "some-id",
+        return NewsDetail(
             title: "At least 5 people died in a small plane crash near Louisiana airport, officials say",
             updated: "Updated 1:28 PM ET, Sat December 28, 2019",
             content: """

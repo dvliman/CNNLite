@@ -93,13 +93,13 @@ struct AnyErrorView: ErrorView {
     }
     
     var body: some View {
-        Text("Failed to connet to server:\n\(error.localizedDescription)")
+        Text("Failed to connect to server:\n\(error.localizedDescription)")
     }
 }
 
 
 struct AnyLoadingView: LoadingView {
     var body: some View {
-        Text("Connecting to Server")
+        Text("Loading...")
     }
 }

@@ -10,28 +10,36 @@ import Foundation
 import SwiftSoup
 
 extension NewsLink {
-    static func parseLinks(_ html: String) -> [NewsLink] {
-        // TODO: figure out syntax for
-        // SwiftSoup.parse.map(::select("li)).reduce(xs, { child(0).attr("href"), text() }) => [NewsLink]
+    
+    static func parse(_ html: String) -> Result<[NewsLink], Error> {
         do {
             let doc: Document = try SwiftSoup.parse(html)
             let links: Elements = try doc.select("li")
            
-            return try links.array().map({ link in
-                let href = try link.child(0).attr("href")
-                let text = try link.text()
-                return NewsLink(id: href, title: text)
+            return .success(try links.array().reduce(into: []) {
+                let href = try $1.child(0).attr("href")
+                let text = try $1.text()
+                return $0.append(NewsLink(id: href, title: text))
             })
-     
-
-        } catch Exception.Error(let type, let message) {
-            print(type)
-            print(message)
-            return []
-            
         } catch {
-            print("error")
-            return []
+            return .failure(error)
+        }
+    }
+}
+
+extension NewsDetail {
+    static func parse(_ html: String) -> Result<NewsDetail, Error> {
+        do {
+            let doc = try SwiftSoup.parse(html)
+            let title: String = try doc.select("h2").text()
+            let content: String = try doc.select("#mount > div > div.afe4286c > div:nth-child(3)")
+                .first()!
+                .children()
+                .reduce("") { $0 + (try $1.text()) + "\n\n" }
+            let updated: String = try doc.select("#mount > div > div.afe4286c > div:nth-child(2)").text()
+            return .success(NewsDetail(title: title, updated: updated, content: content))
+        } catch {
+            return .failure(error)
         }
     }
 }
