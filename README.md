@@ -13,10 +13,10 @@
 <tbody>
 <tr>
 <td>
-	[news list view](screenshots/news-list-view.png)
+	<img src="screenshots/news-list-view.png"/>
 </td>
 <td>
-	[news detail view](screenshots/news-detail-view.png)
+	<img src="screenshots/news-detail-view.png"/>
 </td>
 </tr>
 </tbody>
