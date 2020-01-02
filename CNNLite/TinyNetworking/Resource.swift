@@ -13,15 +13,8 @@ import Foundation
 import SwiftUI
 
 final class Resource<A>: ObservableObject {
-    let didChange = PassthroughSubject<Result<A, Error>?, Never>()
     let endpoint: Endpoint<A>
-    var result: Result<A, Error>? {
-        didSet {
-            DispatchQueue.main.async {
-                self.didChange.send(self.result)
-            }
-        }
-    }
+    @Published var result: Result<A, Error>?
     
     init(endpoint: Endpoint<A>) {
         self.endpoint = endpoint
@@ -30,7 +23,9 @@ final class Resource<A>: ObservableObject {
     
     func reload() {
         URLSession.shared.load(endpoint) { result in
-            self.result = result
+            DispatchQueue.main.async {
+                self.result = result
+            }
         }
     }
     
