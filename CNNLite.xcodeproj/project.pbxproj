@@ -7,17 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		91B6C0EB23BAAB30009E6408 /* ListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C0EA23BAAB30009E6408 /* ListPage.swift */; };
+		91B6C0F023BB1B43009E6408 /* TinyNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 91B6C0EF23BB1B43009E6408 /* TinyNetworking */; };
+		91B6C0F223BD2753009E6408 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C0F123BD2753009E6408 /* Resource.swift */; };
+		91B6C0F623BD36E3009E6408 /* Request in Frameworks */ = {isa = PBXBuildFile; productRef = 91B6C0F523BD36E3009E6408 /* Request */; };
+		91B6C0F823BD3830009E6408 /* NewsLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C0F723BD3830009E6408 /* NewsLink.swift */; };
+		91B6C0FA23BD3896009E6408 /* SwiftSoap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C0F923BD3896009E6408 /* SwiftSoap.swift */; };
+		91B6C0FC23BD38D0009E6408 /* TinyNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C0FB23BD38D0009E6408 /* TinyNetworking.swift */; };
+		91B6C0FE23BD3920009E6408 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6C0FD23BD3920009E6408 /* News.swift */; };
 		A1AC6A6B23B60A32006D9052 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AC6A6A23B60A32006D9052 /* AppDelegate.swift */; };
 		A1AC6A6D23B60A32006D9052 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AC6A6C23B60A32006D9052 /* SceneDelegate.swift */; };
 		A1AC6A6F23B60A32006D9052 /* NewsLinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AC6A6E23B60A32006D9052 /* NewsLinkContainerView.swift */; };
 		A1AC6A7123B60A33006D9052 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AC6A7023B60A33006D9052 /* Assets.xcassets */; };
 		A1AC6A7423B60A33006D9052 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AC6A7323B60A33006D9052 /* Preview Assets.xcassets */; };
 		A1AC6A7723B60A33006D9052 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1AC6A7523B60A33006D9052 /* LaunchScreen.storyboard */; };
-		A1AC6A8023B60BE7006D9052 /* Request in Frameworks */ = {isa = PBXBuildFile; productRef = A1AC6A7F23B60BE7006D9052 /* Request */; };
 		A1AC6A8323B806DB006D9052 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = A1AC6A8223B806DB006D9052 /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		91B6C0EA23BAAB30009E6408 /* ListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPage.swift; sourceTree = "<group>"; };
+		91B6C0F123BD2753009E6408 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		91B6C0F723BD3830009E6408 /* NewsLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsLink.swift; sourceTree = "<group>"; };
+		91B6C0F923BD3896009E6408 /* SwiftSoap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSoap.swift; sourceTree = "<group>"; };
+		91B6C0FB23BD38D0009E6408 /* TinyNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinyNetworking.swift; sourceTree = "<group>"; };
+		91B6C0FD23BD3920009E6408 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		A1AC6A6723B60A32006D9052 /* CNNLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CNNLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AC6A6A23B60A32006D9052 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1AC6A6C23B60A32006D9052 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,7 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1AC6A8023B60BE7006D9052 /* Request in Frameworks */,
+				91B6C0F623BD36E3009E6408 /* Request in Frameworks */,
+				91B6C0F023BB1B43009E6408 /* TinyNetworking in Frameworks */,
 				A1AC6A8323B806DB006D9052 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,11 +55,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		91B6C0F423BD36E3009E6408 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		91B6C0FF23BD3CF2009E6408 /* TinyNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				91B6C0F123BD2753009E6408 /* Resource.swift */,
+				91B6C0FB23BD38D0009E6408 /* TinyNetworking.swift */,
+			);
+			path = TinyNetworking;
+			sourceTree = "<group>";
+		};
+		91B6C10023BD3D05009E6408 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91B6C0F723BD3830009E6408 /* NewsLink.swift */,
+				91B6C0FD23BD3920009E6408 /* News.swift */,
+				91B6C0F923BD3896009E6408 /* SwiftSoap.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		91B6C10123BD3D56009E6408 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A1AC6A6A23B60A32006D9052 /* AppDelegate.swift */,
+				A1AC6A6C23B60A32006D9052 /* SceneDelegate.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91B6C10223BD3D6E009E6408 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A1AC6A6E23B60A32006D9052 /* NewsLinkContainerView.swift */,
+				91B6C0EA23BAAB30009E6408 /* ListPage.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		A1AC6A5E23B60A32006D9052 = {
 			isa = PBXGroup;
 			children = (
 				A1AC6A6923B60A32006D9052 /* CNNLite */,
 				A1AC6A6823B60A32006D9052 /* Products */,
+				91B6C0F423BD36E3009E6408 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,9 +119,10 @@
 		A1AC6A6923B60A32006D9052 /* CNNLite */ = {
 			isa = PBXGroup;
 			children = (
-				A1AC6A6A23B60A32006D9052 /* AppDelegate.swift */,
-				A1AC6A6C23B60A32006D9052 /* SceneDelegate.swift */,
-				A1AC6A6E23B60A32006D9052 /* NewsLinkContainerView.swift */,
+				91B6C10223BD3D6E009E6408 /* UI */,
+				91B6C10023BD3D05009E6408 /* Model */,
+				91B6C0FF23BD3CF2009E6408 /* TinyNetworking */,
+				91B6C10123BD3D56009E6408 /* Supporting Files */,
 				A1AC6A7023B60A33006D9052 /* Assets.xcassets */,
 				A1AC6A7523B60A33006D9052 /* LaunchScreen.storyboard */,
 				A1AC6A7823B60A33006D9052 /* Info.plist */,
@@ -96,8 +156,9 @@
 			);
 			name = CNNLite;
 			packageProductDependencies = (
-				A1AC6A7F23B60BE7006D9052 /* Request */,
 				A1AC6A8223B806DB006D9052 /* SwiftSoup */,
+				91B6C0EF23BB1B43009E6408 /* TinyNetworking */,
+				91B6C0F523BD36E3009E6408 /* Request */,
 			);
 			productName = CNNLite;
 			productReference = A1AC6A6723B60A32006D9052 /* CNNLite.app */;
@@ -130,6 +191,7 @@
 			packageReferences = (
 				A1AC6A7E23B60BE7006D9052 /* XCRemoteSwiftPackageReference "swift-request" */,
 				A1AC6A8123B806DB006D9052 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				91B6C0EE23BB1B43009E6408 /* XCRemoteSwiftPackageReference "tiny-networking" */,
 			);
 			productRefGroup = A1AC6A6823B60A32006D9052 /* Products */;
 			projectDirPath = "";
@@ -160,7 +222,13 @@
 			files = (
 				A1AC6A6B23B60A32006D9052 /* AppDelegate.swift in Sources */,
 				A1AC6A6D23B60A32006D9052 /* SceneDelegate.swift in Sources */,
+				91B6C0F823BD3830009E6408 /* NewsLink.swift in Sources */,
+				91B6C0FE23BD3920009E6408 /* News.swift in Sources */,
+				91B6C0FC23BD38D0009E6408 /* TinyNetworking.swift in Sources */,
+				91B6C0F223BD2753009E6408 /* Resource.swift in Sources */,
+				91B6C0EB23BAAB30009E6408 /* ListPage.swift in Sources */,
 				A1AC6A6F23B60A32006D9052 /* NewsLinkContainerView.swift in Sources */,
+				91B6C0FA23BD3896009E6408 /* SwiftSoap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +424,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		91B6C0EE23BB1B43009E6408 /* XCRemoteSwiftPackageReference "tiny-networking" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/objcio/tiny-networking";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
 		A1AC6A7E23B60BE7006D9052 /* XCRemoteSwiftPackageReference "swift-request" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:carson-katri/swift-request.git";
@@ -375,7 +451,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A1AC6A7F23B60BE7006D9052 /* Request */ = {
+		91B6C0EF23BB1B43009E6408 /* TinyNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91B6C0EE23BB1B43009E6408 /* XCRemoteSwiftPackageReference "tiny-networking" */;
+			productName = TinyNetworking;
+		};
+		91B6C0F523BD36E3009E6408 /* Request */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A1AC6A7E23B60BE7006D9052 /* XCRemoteSwiftPackageReference "swift-request" */;
 			productName = Request;
