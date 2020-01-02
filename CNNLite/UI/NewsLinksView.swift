@@ -28,9 +28,9 @@ struct NewsLinksView: ContentView {
     var body: some View {
         NavigationView {
             List(newsLinks) { link in
-                NavigationLink(destination: NewsDetailContainerView(link: link)) {
+                NavigationLink(destination: NewsDetailContainerView(id: link.id)) {
                     NewsLinkView(link: link)
-                }.navigationBarTitle("CNN News")
+                }.navigationBarTitle(Text("CNN News"), displayMode: .inline)
             }
         }
     }
